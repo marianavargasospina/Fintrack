@@ -27,8 +27,7 @@
 
 ### 1.1 Responsable del tratamiento
 
-Mariana Vargas Ospina, con domicilio en Sonsón, Colombia y correo de contacto <marianavargasospina@gmail.com>
-, es la responsable del tratamiento de los datos personales recopilados a través de FinTrack (en adelante, "la Plataforma").
+Mariana Vargas Ospina, con domicilio en Sonsón, Colombia y correo de contacto <marianavargasospina@gmail.com>, es la responsable del tratamiento de los datos personales recopilados a través de FinTrack (en adelante, "la Plataforma").
 
 ### 1.2 Datos que se recopilan
 
@@ -233,7 +232,7 @@ Los datos eliminados de los sistemas activos se removerán de las copias de resp
 
 El código fuente, la documentación, el diseño de interfaz y la marca "FinTrack" están protegidos por la legislación de derechos de autor aplicable, incluida la Ley 23 de 1982 de Colombia. Queda prohibida la reproducción total o parcial de estos elementos sin autorización previa y por escrito del titular, salvo lo dispuesto en la Política de Propiedad Intelectual (sección 5) respecto de componentes de código abierto.
 
-Para reportar un presunto uso no autorizado, escribe a [correo de contacto].
+Para reportar un presunto uso no autorizado, escribe a <marianavargasospina@gmail.com>.
 
 ---
 
