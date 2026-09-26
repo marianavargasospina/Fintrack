@@ -1,12 +1,8 @@
 # Documentación Legal — FinTrack
 
-## Aviso importante sobre este documento
-
-Este documento fue elaborado como plantilla profesional de referencia para el proyecto FinTrack, dentro del contexto de un portafolio de desarrollo de software. No constituye asesoría legal y no reemplaza la revisión de un abogado especializado en protección de datos y derecho digital, especialmente antes de publicar la aplicación para usuarios reales, dado que procesa información financiera personal. Los campos entre corchetes (`[ ]`) deben completarse con la información real del titular del proyecto antes de su publicación.
-
-**Última actualización:** [Fecha]
-**Responsable del tratamiento:** [Nombre del titular / razón social]
-**Contacto:** [correo de contacto]
+**Última actualización:** 25/09/2026
+**Responsable del tratamiento:** Mariana Vargas Ospina
+**Contacto:** <marianavargasospina@gmail.com>
 
 ---
 
@@ -31,7 +27,8 @@ Este documento fue elaborado como plantilla profesional de referencia para el pr
 
 ### 1.1 Responsable del tratamiento
 
-[Nombre del titular / razón social], con domicilio en [ciudad, país] y correo de contacto [correo de contacto], es el responsable del tratamiento de los datos personales recopilados a través de FinTrack (en adelante, "la Plataforma").
+Mariana Vargas Ospina, con domicilio en Sonsón, Colombia y correo de contacto <marianavargasospina@gmail.com>
+, es la responsable del tratamiento de los datos personales recopilados a través de FinTrack (en adelante, "la Plataforma").
 
 ### 1.2 Datos que se recopilan
 
@@ -44,7 +41,7 @@ FinTrack no solicita ni almacena números de tarjetas de crédito, claves bancar
 
 ### 1.3 Finalidad del tratamiento
 
-Los datos se utilizan para: (i) crear y administrar la cuenta del usuario; (ii) prestar las funcionalidades de la Plataforma (registro de transacciones, presupuestos, dashboards); (iii) garantizar la seguridad de la cuenta; (iv) cumplir obligaciones legales aplicables; y (v) mejorar la Plataforma.
+Los datos se utilizan para: (i) crear y administrar la cuenta del usuario; (ii) prestar las funcionalidades de la Plataforma(registro de transacciones, presupuestos, dashboards); (iii) garantizar la seguridad de la cuenta; (iv) cumplir obligaciones legales aplicables; y (v) mejorar la Plataforma.
 
 ### 1.4 Base legal / consentimiento
 
@@ -104,7 +101,7 @@ Esta política se actualizará si se modifica el uso de cookies o tecnologías s
 
 En cumplimiento del Decreto 1377 de 2013 (Colombia), se informa de manera resumida al titular de los datos:
 
-- **Responsable:** [Nombre del titular / razón social].
+- **Responsable:** Mariana Vargas Ospina.
 - **Finalidad:** gestión de la cuenta de usuario y prestación de las funcionalidades de FinTrack (transacciones, presupuestos, metas de ahorro, dashboards).
 - **Derechos:** acceso, actualización, rectificación, cancelación y oposición, ejercibles mediante el procedimiento de la sección 11.
 - **Carácter facultativo o no de las respuestas:** el suministro de los datos solicitados en el registro es necesario para poder usar la Plataforma; los campos opcionales se identifican como tales en el formulario correspondiente.
@@ -138,11 +135,11 @@ FinTrack se ofrece "tal cual" y "según disponibilidad". No se garantiza disponi
 
 ### 4.6 Limitación de responsabilidad
 
-En la máxima medida permitida por la ley aplicable, [Nombre del titular] no será responsable por daños indirectos, pérdida de datos o decisiones financieras tomadas por el usuario con base en la información de la Plataforma (ver Descargo de Responsabilidad Financiera, sección 7).
+En la máxima medida permitida por la ley aplicable, Mariana Vargas Ospina no será responsable por daños indirectos, pérdida de datos o decisiones financieras tomadas por el usuario con base en la información de la Plataforma (ver Descargo de Responsabilidad Financiera, sección 7).
 
 ### 4.7 Terminación
 
-El usuario puede cerrar su cuenta en cualquier momento. [Nombre del titular] podrá suspender o terminar cuentas que incumplan estos términos, previa notificación cuando sea razonablemente posible.
+El usuario puede cerrar su cuenta en cualquier momento. Mariana Vargas Ospina podrá suspender o terminar cuentas que incumplan estos términos, previa notificación cuando sea razonablemente posible.
 
 ### 4.8 Modificaciones
 
@@ -158,7 +155,7 @@ Ver sección 10 (Legislación Aplicable).
 
 ### 5.1 Titularidad de la Plataforma
 
-El código fuente, diseño de interfaz, marca "FinTrack", logotipos y demás elementos de la Plataforma son propiedad de [Nombre del titular], salvo los componentes de terceros bajo licencia de código abierto utilizados en su construcción (FastAPI, PostgreSQL, Chart.js, entre otros), que se rigen por sus respectivas licencias.
+El código fuente, diseño de interfaz, marca "FinTrack", logotipos y demás elementos de la Plataforma son propiedad de Mariana Vargas Ospina, salvo los componentes de terceros bajo licencia de código abierto utilizados en su construcción (FastAPI, PostgreSQL, Chart.js, entre otros), que se rigen por sus respectivas licencias.
 
 ### 5.2 Propiedad de los datos del usuario
 
@@ -170,7 +167,7 @@ Se autoriza el uso personal y no comercial de la Plataforma conforme a estos té
 
 ### 5.4 Reclamos por infracción
 
-Cualquier reclamo relacionado con presunta infracción de derechos de propiedad intelectual puede dirigirse a [correo de contacto], indicando la obra presuntamente infringida y la ubicación del contenido cuestionado.
+Cualquier reclamo relacionado con presunta infracción de derechos de propiedad intelectual puede dirigirse a <marianavargasospina@gmail.com>, indicando la obra presuntamente infringida y la ubicación del contenido cuestionado.
 
 ---
 
@@ -194,7 +191,7 @@ Ante una eventual vulneración de seguridad que afecte datos personales, se noti
 
 ### 6.4 Reporte responsable de vulnerabilidades
 
-Si detectas una vulnerabilidad de seguridad en FinTrack, repórtala de forma responsable a [correo de contacto] antes de divulgarla públicamente, para permitir su corrección oportuna.
+Si detectas una vulnerabilidad de seguridad en FinTrack, repórtala de forma responsable a <marianavargasospina@gmail.com> antes de divulgarla públicamente, para permitir su corrección oportuna.
 
 ---
 
@@ -214,11 +211,11 @@ El usuario puede solicitar en cualquier momento la eliminación de su cuenta y d
 
 ### 8.2 Procedimiento
 
-La solicitud puede realizarse desde la configuración de la cuenta dentro de la Plataforma o mediante correo electrónico a [correo de contacto], indicando el correo asociado a la cuenta.
+La solicitud puede realizarse desde la configuración de la cuenta dentro de la Plataforma o mediante correo electrónico a <marianavargasospina@gmail.com>, indicando el correo asociado a la cuenta.
 
 ### 8.3 Plazos
 
-La solicitud se atenderá dentro de un plazo máximo de [15] días hábiles, conforme a los términos previstos por la normativa colombiana de protección de datos, salvo prórroga justificada que será comunicada al usuario.
+La solicitud se atenderá dentro de un plazo máximo de 15 días hábiles, conforme a los términos previstos por la normativa colombiana de protección de datos, salvo prórroga justificada que será comunicada al usuario.
 
 ### 8.4 Excepciones
 
@@ -232,7 +229,7 @@ Los datos eliminados de los sistemas activos se removerán de las copias de resp
 
 ## 9. Aviso de Copyright
 
-© [Año] [Nombre del titular]. Todos los derechos reservados.
+© 2026 Mariana Vargas Ospina. Todos los derechos reservados.
 
 El código fuente, la documentación, el diseño de interfaz y la marca "FinTrack" están protegidos por la legislación de derechos de autor aplicable, incluida la Ley 23 de 1982 de Colombia. Queda prohibida la reproducción total o parcial de estos elementos sin autorización previa y por escrito del titular, salvo lo dispuesto en la Política de Propiedad Intelectual (sección 5) respecto de componentes de código abierto.
 
@@ -257,7 +254,7 @@ Si FinTrack es utilizado por personas ubicadas en la Unión Europea, resultará 
 
 ### 10.3 Jurisdicción
 
-Para la resolución de cualquier controversia derivada del uso de la Plataforma, las partes se someten a los jueces y tribunales competentes de [ciudad], Colombia, salvo que la normativa de protección al consumidor aplicable disponga un fuero distinto de carácter irrenunciable.
+Para la resolución de cualquier controversia derivada del uso de la Plataforma, las partes se someten a los jueces y tribunales competentes de Sonsón, Colombia, salvo que la normativa de protección al consumidor aplicable disponga un fuero distinto de carácter irrenunciable.
 
 ---
 
@@ -265,7 +262,7 @@ Para la resolución de cualquier controversia derivada del uso de la Plataforma,
 
 ### 11.1 Canal de atención
 
-Las solicitudes relacionadas con el ejercicio de derechos ARCO (acceso, rectificación, actualización, supresión y oposición) deben dirigirse a [correo de contacto].
+Las solicitudes relacionadas con el ejercicio de derechos ARCO (acceso, rectificación, actualización, supresión y oposición) deben dirigirse a <marianavargasospina@gmail.com>.
 
 ### 11.2 Información requerida
 
@@ -277,8 +274,8 @@ Antes de dar trámite a la solicitud, se podrá requerir información adicional 
 
 ### 11.4 Plazos de respuesta
 
-- Consultas: se atenderán dentro de un plazo máximo de [10] días hábiles.
-- Reclamos (rectificación, actualización, supresión): se atenderán dentro de un plazo máximo de [15] días hábiles.
+- Consultas: se atenderán dentro de un plazo máximo de 10 días hábiles.
+- Reclamos (rectificación, actualización, supresión): se atenderán dentro de un plazo máximo de 15 días hábiles.
 
 Si no es posible atender la solicitud dentro de dichos plazos, se informará al solicitante indicando los motivos y la nueva fecha estimada de respuesta.
 
@@ -307,4 +304,3 @@ El usuario puede revocar su consentimiento en cualquier momento, sin efectos ret
 ### 12.4 Consecuencias de no otorgar el consentimiento
 
 Si el usuario no otorga el consentimiento requerido, no será posible crear ni mantener una cuenta activa en FinTrack, dado que el tratamiento de los datos es necesario para la prestación del servicio.
-
