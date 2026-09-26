@@ -27,7 +27,8 @@ FinTrack permite a estudiantes, profesionales y freelancers tomar el control rea
 10. [Despliegue](#despliegue)
 11. [Roadmap futuro](#roadmap-futuro)
 12. [Capturas sugeridas](#capturas-sugeridas)
-13. [Licencia](#licencia)
+13. [Documentación adicional](#documentación-adicional)
+14. [Licencia](#licencia)
 
 ---
 
@@ -119,6 +120,12 @@ fintrack/
 │   │   └── main.js
 │   └── index.html
 ├── docs/
+│   ├── architecture.md
+│   ├── case-study.md
+│   ├── documentation.md
+│   ├── legal.md
+│   ├── security.md
+│   ├── user-guide.md
 │   └── screenshots/
 ├── .gitignore
 ├── LICENSE
@@ -268,6 +275,15 @@ Para enriquecer este README, considera agregar capturas de pantalla en `docs/scr
 ```
 
 Capturas recomendadas: pantalla de login, dashboard principal con gráficas, formulario de nueva transacción, vista de presupuestos y metas de ahorro, e interfaz en modo oscuro.
+
+## Documentación adicional
+
+- [Arquitectura del proyecto](docs/architecture.md)
+- [Documentación técnica y de producto](docs/documentation.md)
+- [Seguridad](docs/security.md)
+- [Legal](docs/legal.md)
+- [Caso de estudio](docs/case-study.md)
+- [Manual de usuario](docs/user-guide.md)
 
 ## Licencia
 

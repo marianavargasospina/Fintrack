@@ -2,7 +2,7 @@
 
 > Documento de referencia para presentar el proyecto en el repositorio de GitHub y en entrevistas técnicas.
 
-Este documento complementa al `README.md` (guía de uso e instalación) y a `ARCHITECTURE.md` (detalle de implementación por capas, con código y diagramas de flujo). Aquí se documenta el proyecto de forma integral: el problema que resuelve, las decisiones de diseño, el modelo de datos, la seguridad, la estrategia de pruebas, el despliegue y la proyección a futuro. La documentación exhaustiva de cada endpoint de la API queda registrada como un entregable independiente (`API_REFERENCE.md`), aún pendiente de elaboración.
+Este documento complementa al `../README.md` (guía de uso e instalación) y a `architecture.md` (detalle de implementación por capas, con código y diagramas de flujo). Aquí se documenta el proyecto de forma integral: el problema que resuelve, las decisiones de diseño, el modelo de datos, la seguridad, la estrategia de pruebas, el despliegue y la proyección a futuro. La documentación exhaustiva de cada endpoint de la API queda registrada como un entregable independiente (`API_REFERENCE.md`), aún pendiente de elaboración.
 
 ---
 
@@ -76,7 +76,7 @@ flowchart TD
     D --> E[("PostgreSQL<br/>Row Level Security")]
 ```
 
-La regla de dependencia es unidireccional: cada capa conoce a la inferior, nunca a la superior. El detalle completo de esta arquitectura —responsabilidad de cada capa, flujo de una petición HTTP paso a paso y un ejemplo end-to-end con código— está documentado en `ARCHITECTURE.md`.
+La regla de dependencia es unidireccional: cada capa conoce a la inferior, nunca a la superior. El detalle completo de esta arquitectura —responsabilidad de cada capa, flujo de una petición HTTP paso a paso y un ejemplo end-to-end con código— está documentado en `architecture.md`.
 
 ## 5. Tecnologías seleccionadas
 
@@ -114,11 +114,14 @@ fintrack/
 │   │   └── main.js
 │   └── index.html
 ├── docs/
-│   ├── README.md
-│   ├── ARCHITECTURE.md
-│   ├── DOCUMENTATION.md
-│   └── LEGAL.md
-└── .gitignore
+│   ├── architecture.md
+│   ├── case-study.md
+│   ├── documentation.md
+│   ├── legal.md
+│   ├── security.md
+│   └── user-guide.md
+├── .gitignore
+└── README.md
 ```
 
 Nota: ajusta esta estructura a la organización real de tu repositorio.
@@ -196,7 +199,7 @@ FinTrack aplica seguridad en dos niveles independientes:
 - **Nivel de aplicación:** autenticación mediante JWT, contraseñas con hashing bcrypt (nunca en texto plano), validación estricta de entrada con Pydantic, y comunicación cifrada mediante HTTPS/TLS.
 - **Nivel de base de datos:** políticas de Row Level Security en PostgreSQL que restringen cada consulta e inserción a las filas cuyo `user_id` coincide con el usuario autenticado, de forma que un error en la lógica de negocio no puede exponer datos de otro usuario.
 
-Esta combinación sigue el principio de "defensa en profundidad": ninguna de las dos capas depende exclusivamente de que la otra esté libre de errores. Las prácticas aplicadas están alineadas con las categorías de riesgo descritas en el [OWASP API Security Top 10](https://owasp.org/www-project-api-security/), en particular autorización a nivel de objeto y autenticación rota. El detalle operativo (gestión de incidentes, reporte de vulnerabilidades) está documentado en `LEGAL.md`, sección de Política de Seguridad.
+Esta combinación sigue el principio de "defensa en profundidad": ninguna de las dos capas depende exclusivamente de que la otra esté libre de errores. Las prácticas aplicadas están alineadas con las categorías de riesgo descritas en el [OWASP API Security Top 10](https://owasp.org/www-project-api-security/), en particular autorización a nivel de objeto y autenticación rota. El detalle operativo (gestión de incidentes, reporte de vulnerabilidades) está documentado en `legal.md`, sección de Política de Seguridad, y en `security.md`.
 
 ## 9. API REST
 
@@ -235,7 +238,7 @@ El despliegue se realiza de forma gratuita combinando Render y Neon:
 | Frontend (estático) | Render — Static Site |
 | Base de datos | Neon — PostgreSQL serverless |
 
-El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras) y publicar el frontend como sitio estático apuntando al backend desplegado. El detalle paso a paso está en `README.md`.
+El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras) y publicar el frontend como sitio estático apuntando al backend desplegado. El detalle paso a paso está en `../README.md`.
 
 ## 12. Escalabilidad
 

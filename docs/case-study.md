@@ -78,7 +78,7 @@ flowchart TD
     D --> E[("PostgreSQL<br/>Row Level Security")]
 ```
 
-Cada capa depende únicamente de la inferior, nunca al revés, lo que me permitió probar la lógica de negocio (`services`) sin depender de una base de datos real, y sustituir detalles de implementación sin afectar al resto del sistema. El detalle completo de esta arquitectura, con ejemplos de código por capa, está documentado en `ARCHITECTURE.md`.
+Cada capa depende únicamente de la inferior, nunca al revés, lo que me permitió probar la lógica de negocio (`services`) sin depender de una base de datos real, y sustituir detalles de implementación sin afectar al resto del sistema. El detalle completo de esta arquitectura, con ejemplos de código por capa, está documentado en `architecture.md`.
 
 ## 8. Justificación tecnológica
 
@@ -107,13 +107,13 @@ Cada capa depende únicamente de la inferior, nunca al revés, lo que me permiti
 
 - Una transferencia entre cuentas se puede resolver envolviendo ambas actualizaciones en una única transacción de base de datos, de forma que si una parte falla, ninguna se aplica (atomicidad).
 - El contexto de usuario para Row Level Security se establece en el repository, al inicio de cada operación, mediante una instrucción de sesión que las políticas de la base de datos usan para filtrar las filas.
-- La expiración de los JWT se resuelve definiendo un tiempo de vida razonable para el `access_token`, dejando como mejora futura un `refresh_token` para renovar la sesión sin pedir credenciales de nuevo (ver Roadmap, sección 14, y `SECURITY.md`).
+- La expiración de los JWT se resuelve definiendo un tiempo de vida razonable para el `access_token`, dejando como mejora futura un `refresh_token` para renovar la sesión sin pedir credenciales de nuevo (ver Roadmap, sección 14, y `security.md`).
 
 [Agrega aquí tu propio relato: qué intentaste primero, qué obstáculo específico encontraste y cómo llegaste a la solución que finalmente quedó en el proyecto.]
 
 ## 11. Estrategias de seguridad implementadas
 
-FinTrack aplica un modelo de seguridad en dos capas independientes: a nivel de aplicación (autenticación JWT, contraseñas con hashing bcrypt, validación estricta de entrada con Pydantic, consultas parametrizadas para prevenir inyección SQL) y a nivel de base de datos (Row Level Security, que impide que un usuario acceda a los datos de otro incluso ante un error en la lógica de negocio). Esta redundancia intencional —conocida como defensa en profundidad— es la estrategia central de seguridad del proyecto y está documentada en detalle en `SECURITY.md`, incluyendo los riesgos identificados, los ya mitigados y las recomendaciones pendientes.
+FinTrack aplica un modelo de seguridad en dos capas independientes: a nivel de aplicación (autenticación JWT, contraseñas con hashing bcrypt, validación estricta de entrada con Pydantic, consultas parametrizadas para prevenir inyección SQL) y a nivel de base de datos (Row Level Security, que impide que un usuario acceda a los datos de otro incluso ante un error en la lógica de negocio). Esta redundancia intencional —conocida como defensa en profundidad— es la estrategia central de seguridad del proyecto y está documentada en detalle en `security.md`, incluyendo los riesgos identificados, los ya mitigados y las recomendaciones pendientes.
 
 ## 12. Resultados obtenidos
 
@@ -122,7 +122,7 @@ FinTrack aplica un modelo de seguridad en dos capas independientes: a nivel de a
 - Una aplicación full-stack funcional, con backend, frontend y base de datos desplegados en un entorno de producción real (Render y Neon).
 - Una arquitectura por capas mantenible y probada, que separa claramente presentación, lógica de negocio y acceso a datos.
 - Un modelo de seguridad de dos capas (JWT + Row Level Security) documentado y evaluado frente a los riesgos más comunes de una API financiera.
-- Una suite de documentación técnica profesional del proyecto (`README.md`, `ARCHITECTURE.md`, `SECURITY.md`, `DOCUMENTATION.md`, `LEGAL.md`), que respalda la comunicación técnica del trabajo realizado.
+- Una suite de documentación técnica profesional del proyecto (`../README.md`, `architecture.md`, `security.md`, `documentation.md`, `legal.md`, `user-guide.md`), que respalda la comunicación técnica del trabajo realizado.
 - [Agrega aquí: cobertura de pruebas alcanzada, número de funcionalidades completadas frente a las planeadas, tiempo de desarrollo, u otra métrica que puedas respaldar.]
 
 ## 13. Lecciones aprendidas
