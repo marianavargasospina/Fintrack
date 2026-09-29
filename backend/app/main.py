@@ -1,7 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
 
+from app.api import auth
 from app.core.config import settings
+from app.core.database import get_db
+from app.models.user import User
 
 app = FastAPI(
     title="FinTrack API",
@@ -17,7 +21,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router, prefix="/api/v1")
+
 
 @app.get("/health", tags=["health"])
 def health_check():
     return {"status": "ok", "environment": settings.environment}
+
+
+@app.get("/health/db", tags=["health"])
+def health_check_db(db: Session = Depends(get_db)):
+    users_count = db.query(User).count()
+    return {"status": "ok", "users_count": users_count}
