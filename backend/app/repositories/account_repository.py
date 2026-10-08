@@ -10,7 +10,10 @@ class AccountRepository:
         self.db = db
 
     def _set_user_context(self, user_id) -> None:
-        self.db.execute(text("SET LOCAL app.current_user_id = :uid"), {"uid": str(user_id)})
+        self.db.execute(
+            text("SELECT set_config('app.current_user_id', :uid, true)"),
+            {"uid": str(user_id)},
+        )
 
     def list_by_user(self, user_id) -> list[Account]:
         self._set_user_context(user_id)
