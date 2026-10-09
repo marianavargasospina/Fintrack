@@ -1,6 +1,6 @@
 # FinTrack
 
-> Plataforma full-stack de finanzas personales, moderna, segura y lista para producción.
+> Plataforma full-stack de finanzas personales, moderna y de código abierto.
 
 FinTrack permite a estudiantes, profesionales y freelancers tomar el control real de sus finanzas: registrar ingresos, gastos y transferencias, administrar múltiples cuentas y categorías, definir presupuestos y metas de ahorro, y visualizar sus hábitos de consumo mediante dashboards interactivos.
 
@@ -137,7 +137,7 @@ Nota: ajusta esta estructura a la organización real de tu repositorio.
 ## Instalación local
 
 ### Requisitos previos
-- Python 3.11 o superior
+- Python 3.13
 - PostgreSQL instalado localmente (o una instancia en la nube, como Neon)
 - Git
 
@@ -154,9 +154,8 @@ cd fintrack
 cd backend
 python -m venv venv
 
-# Activar entorno virtual
-source venv/bin/activate      # Linux / macOS
-venv\Scripts\activate         # Windows
+# Activar entorno virtual en PowerShell
+.\venv\Scripts\Activate.ps1
 
 pip install -r requirements.txt
 ```
@@ -183,6 +182,16 @@ CORS_ORIGINS=http://localhost:5500,http://127.0.0.1:5500
 
 Nota importante: nunca subas tu archivo `.env` real al repositorio. Asegúrate de incluirlo en `.gitignore`.
 
+## Inicializar PostgreSQL
+
+Aplica los scripts numerados desde `backend/sql/` en orden, conectado a la base de datos `fintrack`:
+
+1. `000_create_users_and_accounts.sql` crea las tablas base y RLS de cuentas.
+2. `001_create_categories.sql` a `004_create_savings_goals.sql` crean el resto del modelo y sus políticas RLS.
+3. `005_grant_app_permissions.sql` concede permisos al rol `fintrack_app`.
+
+El rol de aplicación debe ser `NOSUPERUSER` y `NOBYPASSRLS`. Nunca uses el usuario administrador de PostgreSQL en `DATABASE_URL`.
+
 ## Ejecución del backend
 
 ```bash
@@ -208,7 +217,7 @@ python -m http.server 5500
 ```
 Luego abre `http://127.0.0.1:5500` en tu navegador.
 
-Nota: asegúrate de que la URL base configurada en el frontend (para las llamadas Fetch) apunte a tu backend local, por ejemplo `http://127.0.0.1:8000`.
+La URL base se configura en un solo lugar, `frontend/js/modules/api.js`, mediante `API_BASE_URL`. Por defecto apunta a `http://127.0.0.1:8000/api/v1`.
 
 ## Pruebas
 
@@ -228,6 +237,14 @@ Para medir cobertura de código (requiere `pytest-cov`):
 ```bash
 pytest --cov=app --cov-report=term-missing
 ```
+
+La prueba de aislamiento RLS se omite si no se define `FINTRACK_RLS_TESTS=1`; para considerarla válida hay que ejecutarla contra PostgreSQL con los scripts aplicados.
+
+## Código abierto
+
+FinTrack se distribuye bajo la licencia MIT. Las contribuciones están descritas en [CONTRIBUTING.md](CONTRIBUTING.md). No incluyas secretos, datos reales ni archivos `.env` en pull requests.
+
+Cada push y pull request ejecuta automáticamente las pruebas Python y la comprobación de sintaxis JavaScript mediante [CI](.github/workflows/ci.yml).
 
 ## Despliegue
 
