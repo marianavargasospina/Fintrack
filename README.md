@@ -137,7 +137,7 @@ Nota: ajusta esta estructura a la organización real de tu repositorio.
 ## Instalación local
 
 ### Requisitos previos
-- Python 3.11 o superior
+- Python 3.13
 - PostgreSQL instalado localmente (o una instancia en la nube, como Neon)
 - Git
 
@@ -154,9 +154,8 @@ cd fintrack
 cd backend
 python -m venv venv
 
-# Activar entorno virtual
-source venv/bin/activate      # Linux / macOS
-venv\Scripts\activate         # Windows
+# Activar entorno virtual en PowerShell
+.\venv\Scripts\Activate.ps1
 
 pip install -r requirements.txt
 ```
@@ -208,7 +207,7 @@ python -m http.server 5500
 ```
 Luego abre `http://127.0.0.1:5500` en tu navegador.
 
-Nota: asegúrate de que la URL base configurada en el frontend (para las llamadas Fetch) apunte a tu backend local, por ejemplo `http://127.0.0.1:8000`.
+La URL base se configura en un solo lugar, `frontend/js/modules/api.js`, mediante `API_BASE_URL`. Por defecto apunta a `http://127.0.0.1:8000/api/v1`.
 
 ## Pruebas
 

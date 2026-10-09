@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FinTrack</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <section id="auth-view" class="auth-panel" aria-labelledby="auth-title">
+      <p class="kicker">FINTRACK / CONTROL PERSONAL</p>
+      <h1 id="auth-title">Tu dinero, con contexto.</h1>
+      <p class="lede">Registra, compara y avanza hacia tus metas sin perder de vista lo importante.</p>
+      <form id="login-form" class="stack">
+        <label for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="auth-message" class="message" role="alert"></p>
+    </section>
+
+    <section id="app-view" hidden>
+      <header class="topbar">
+        <div><p class="kicker">FINTRACK</p><h1>Resumen financiero</h1></div>
+        <div class="toolbar"><button id="theme-toggle" class="quiet" type="button" aria-pressed="false">Modo oscuro</button><button id="logout" class="quiet" type="button">Salir</button></div>
+      </header>
+      <nav class="tabs" aria-label="Secciones principales">
+        <button class="tab active" data-section="dashboard" type="button">Dashboard</button>
+        <button class="tab" data-section="accounts" type="button">Cuentas</button>
+        <button class="tab" data-section="transactions" type="button">Movimientos</button>
+        <button class="tab" data-section="budgets" type="button">Presupuestos</button>
+        <button class="tab" data-section="goals" type="button">Metas</button>
+      </nav>
+      <p id="app-message" class="message" role="status"></p>
+      <section id="dashboard" class="view"><div class="metrics"><article><span>Ingresos del mes</span><strong id="income-total">-</strong></article><article><span>Gastos del mes</span><strong id="expense-total">-</strong></article><article><span>Saldo total</span><strong id="balance-total">-</strong></article></div><div class="charts"><article><h2>Ingresos vs. gastos</h2><canvas id="monthly-chart" aria-label="Ingresos y gastos de los últimos seis meses"></canvas></article><article><h2>Gasto por categoría</h2><canvas id="category-chart" aria-label="Gastos agrupados por categoría"></canvas></article></div></section>
+      <section id="accounts" class="view" hidden><h2>Cuentas</h2><div id="accounts-list" class="list"></div></section>
+      <section id="transactions" class="view" hidden><div class="section-heading"><h2>Movimientos</h2><button id="export-button" type="button">Exportar CSV</button></div><form id="transaction-filters" class="filters"><label>Desde <input name="date_from" type="date"></label><label>Hasta <input name="date_to" type="date"></label><label>Tipo <select name="type"><option value="">Todos</option><option>income</option><option>expense</option><option>transfer</option></select></label><button type="submit">Filtrar</button></form><div id="transactions-list" class="list"></div></section>
+      <section id="budgets" class="view" hidden><h2>Presupuestos</h2><div id="budgets-list" class="list"></div></section>
+      <section id="goals" class="view" hidden><div class="section-heading"><h2>Metas de ahorro</h2><button id="new-goal" type="button">Nueva meta</button></div><div id="goals-list" class="list"></div></section>
+    </section>
+  </main>
+</body>
+</html>

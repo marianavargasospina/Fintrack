@@ -119,7 +119,10 @@ class TransactionRepository:
         self.db = db
 
     def insert(self, user_id, data: TransactionCreate) -> Transaction:
-        self.db.execute("SET LOCAL app.current_user_id = :uid", {"uid": str(user_id)})
+        self.db.execute(
+            text("SELECT set_config('app.current_user_id', :uid, true)"),
+            {"uid": str(user_id)},
+        )
         result = self.db.execute(
             """
             INSERT INTO transactions (user_id, account_id, category_id, amount, type, description)

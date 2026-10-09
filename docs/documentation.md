@@ -2,7 +2,7 @@
 
 > Documento de referencia para presentar el proyecto en el repositorio de GitHub y en entrevistas técnicas.
 
-Este documento complementa al `../README.md` (guía de uso e instalación) y a `architecture.md` (detalle de implementación por capas, con código y diagramas de flujo). Aquí se documenta el proyecto de forma integral: el problema que resuelve, las decisiones de diseño, el modelo de datos, la seguridad, la estrategia de pruebas, el despliegue y la proyección a futuro. La documentación exhaustiva de cada endpoint de la API queda registrada como un entregable independiente (`API_REFERENCE.md`), aún pendiente de elaboración.
+Este documento complementa al `../README.md` (guía de uso e instalación) y a `architecture.md` (detalle de implementación por capas, con código y diagramas de flujo). Aquí se documenta el proyecto de forma integral: el problema que resuelve, las decisiones de diseño, el modelo de datos, la seguridad, la estrategia de pruebas, el despliegue y la proyección a futuro. La referencia de endpoints está en `api-reference.md` y la especificación viva en `/openapi.json`.
 
 ---
 
@@ -128,7 +128,7 @@ Nota: ajusta esta estructura a la organización real de tu repositorio.
 
 ## 7. Modelo de datos
 
-El siguiente es un modelo de datos de referencia, coherente con las funcionalidades descritas del proyecto (cuentas, categorías, transacciones, presupuestos y metas de ahorro). Ajústalo a tu esquema real de PostgreSQL.
+El modelo de datos implementado en PostgreSQL incluye cuentas, categorías, transacciones, presupuestos y metas de ahorro. Las tablas con datos de usuario están protegidas por RLS.
 
 ```mermaid
 erDiagram
@@ -214,9 +214,9 @@ La API sigue convenciones REST, versionada bajo el prefijo `/api/v1`, con autent
 | Budgets | `GET/POST /api/v1/budgets` | JWT |
 | Savings Goals | `GET/POST /api/v1/goals` | JWT |
 | Dashboard | `GET /api/v1/dashboard/summary` | JWT |
-| Export | `GET /api/v1/export` | JWT |
+| Export | `GET /api/v1/export/transactions?format=csv` | JWT |
 
-Nota: esta tabla resume los grupos de recursos a nivel de diseño. La documentación exhaustiva endpoint por endpoint (parámetros, cuerpos de ejemplo, respuestas y errores) queda pendiente como entregable independiente, una vez se disponga del detalle real de cada ruta implementada.
+La exportación usa `GET /api/v1/export/transactions?format=csv` con los mismos filtros del listado. El dashboard ejecuta los agregados en PostgreSQL y no recalcula totales en Python.
 
 ## 10. Testing
 

@@ -1,0 +1,4 @@
+import {apiRequest,getJson} from './api.js';
+let activeFilters={};
+export async function loadTransactions(filters={}){activeFilters=filters;const query=new URLSearchParams(Object.entries(filters).filter(([,value])=>value));const data=await getJson(`/transactions?${query}`);document.querySelector('#transactions-list').innerHTML=data.items.map(item=>`<article><div><strong>${item.type}</strong><p>${item.transaction_date} · ${item.description||'Sin descripción'}</p></div><span>${item.amount}</span></article>`).join('');}
+export async function exportTransactions(){const query=new URLSearchParams({format:'csv',...Object.fromEntries(Object.entries(activeFilters).filter(([,value])=>value))});const response=await apiRequest(`/export/transactions?${query}`);const blob=await response.blob();const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='transactions.csv';link.click();URL.revokeObjectURL(link.href);}
