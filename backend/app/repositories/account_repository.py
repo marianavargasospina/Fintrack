@@ -1,7 +1,8 @@
-from sqlalchemy import text
+from sqlalchemy import or_, text
 from sqlalchemy.orm import Session
 
 from app.models.account import Account
+from app.models.transaction import Transaction
 from app.schemas.account import AccountCreate
 
 
@@ -29,6 +30,39 @@ class AccountRepository:
             current_balance=data.initial_balance,
         )
         self.db.add(account)
-        self.db.commit()
+        self.db.flush()
         self.db.refresh(account)
+        self.db.commit()
         return account
+
+    def delete(self, user_id, account_id) -> bool:
+        self._set_user_context(user_id)
+        account = (
+            self.db.query(Account)
+            .filter(Account.id == account_id, Account.user_id == user_id)
+            .with_for_update()
+            .first()
+        )
+        if account is None:
+            return False
+
+        has_transactions = (
+            self.db.query(Transaction.id)
+            .filter(
+                Transaction.user_id == user_id,
+                or_(
+                    Transaction.account_id == account_id,
+                    Transaction.destination_account_id == account_id,
+                ),
+            )
+            .first()
+            is not None
+        )
+        if has_transactions:
+            raise ValueError(
+                "No puedes eliminar una cuenta que tiene movimientos asociados."
+            )
+
+        self.db.delete(account)
+        self.db.commit()
+        return True

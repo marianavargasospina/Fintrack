@@ -234,11 +234,10 @@ El despliegue se realiza de forma gratuita combinando Render y Neon:
 
 | Componente | Servicio |
 |---|---|
-| Backend (API FastAPI) | Render — Web Service |
-| Frontend (estático) | Render — Static Site |
+| Aplicación completa (FastAPI + frontend) | Render — Web Service |
 | Base de datos | Neon — PostgreSQL serverless |
 
-El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras) y publicar el frontend como sitio estático apuntando al backend desplegado. El detalle paso a paso está en `../README.md`.
+El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras). FastAPI sirve también el frontend desde el mismo servicio, por lo que las personas usuarias reciben una única URL pública. El detalle paso a paso está en `../README.md`.
 
 ## 12. Escalabilidad
 
