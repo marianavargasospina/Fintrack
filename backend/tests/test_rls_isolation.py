@@ -6,6 +6,8 @@ from uuid import uuid4
 import pytest
 from sqlalchemy import create_engine, text
 
+from app.core.config import settings
+
 pytestmark = pytest.mark.skipif(
     not os.getenv("FINTRACK_RLS_TESTS"),
     reason="Set FINTRACK_RLS_TESTS=1 to run PostgreSQL RLS integration tests",
@@ -13,8 +15,7 @@ pytestmark = pytest.mark.skipif(
 
 
 def test_accounts_are_isolated_between_users():
-    database_url = os.environ["DATABASE_URL"]
-    engine = create_engine(database_url)
+    engine = create_engine(settings.database_url)
     first_user = uuid4()
     second_user = uuid4()
 
@@ -28,11 +29,20 @@ def test_accounts_are_isolated_between_users():
                 ],
             )
             connection.execute(
+                text("SELECT set_config('app.current_user_id', :user_id, true)"),
+                {"user_id": str(first_user)},
+            )
+            connection.execute(
                 text("INSERT INTO accounts (user_id, name, type, currency) VALUES (:user_id, :name, 'cash', 'COP')"),
-                [
-                    {"user_id": first_user, "name": "First account"},
-                    {"user_id": second_user, "name": "Second account"},
-                ],
+                {"user_id": first_user, "name": "First account"},
+            )
+            connection.execute(
+                text("SELECT set_config('app.current_user_id', :user_id, true)"),
+                {"user_id": str(second_user)},
+            )
+            connection.execute(
+                text("INSERT INTO accounts (user_id, name, type, currency) VALUES (:user_id, :name, 'cash', 'COP')"),
+                {"user_id": second_user, "name": "Second account"},
             )
             connection.execute(
                 text("SELECT set_config('app.current_user_id', :user_id, true)"),

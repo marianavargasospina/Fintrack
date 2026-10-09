@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE budgets (
+CREATE TABLE IF NOT EXISTS budgets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     category_id UUID NOT NULL REFERENCES categories(id),
@@ -16,12 +16,22 @@ CREATE TABLE budgets (
     UNIQUE (user_id, category_id, start_date)
 );
 
-CREATE INDEX ix_budgets_user_id ON budgets (user_id);
-CREATE INDEX ix_budgets_category_period
+CREATE INDEX IF NOT EXISTS ix_budgets_user_id ON budgets (user_id);
+CREATE INDEX IF NOT EXISTS ix_budgets_category_period
     ON budgets (category_id, start_date, end_date);
 
 ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY budgets_user_isolation ON budgets
-    USING (user_id = current_setting('app.current_user_id')::uuid)
-    WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies
+        WHERE schemaname = 'public' AND tablename = 'budgets'
+          AND policyname = 'budgets_user_isolation'
+    ) THEN
+        CREATE POLICY budgets_user_isolation ON budgets
+            USING (user_id = current_setting('app.current_user_id')::uuid)
+            WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+    END IF;
+END
+$$;
