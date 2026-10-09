@@ -262,7 +262,7 @@ Decisiones que favorecen el rendimiento del sistema:
 ## 14. Roadmap
 
 - Documentación exhaustiva de la API REST, endpoint por endpoint.
-- Integración continua (CI) con Pytest ejecutándose en cada push.
+- Integración continua (CI) con Pytest y comprobación de JavaScript en cada push.
 - Capa de caché (Redis) para las consultas de dashboard.
 - Notificaciones y alertas de presupuesto.
 - Exportación de reportes en PDF.

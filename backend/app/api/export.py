@@ -18,6 +18,12 @@ from app.services.export_service import ExportService
 router = APIRouter(prefix="/export", tags=["export"])
 
 
+def csv_safe(value):
+    if isinstance(value, str) and value[:1] in {"=", "+", "-", "@"}:
+        return "'" + value
+    return value
+
+
 def get_export_service(db: Session = Depends(get_db)) -> ExportService:
     return ExportService(TransactionRepository(db))
 
@@ -56,7 +62,7 @@ def export_transactions(
             output = io.StringIO()
             csv.writer(output).writerow([
                 item.id, item.account_id, item.destination_account_id, item.category_id,
-                item.type, item.amount, item.description or "", item.transaction_date,
+                csv_safe(item.type), csv_safe(item.amount), csv_safe(item.description or ""), item.transaction_date,
             ])
             yield output.getvalue()
 

@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.api import accounts, auth, budgets, categories, dashboard, export, savings_goals, transactions
 from app.core.config import settings
 from app.core.database import get_db
-from app.models.user import User
 
 app = FastAPI(
     title="FinTrack API",
@@ -33,10 +33,22 @@ app.include_router(export.router, prefix="/api/v1")
 
 @app.get("/health", tags=["health"])
 def health_check():
-    return {"status": "ok", "environment": settings.environment}
+    return {"status": "ok"}
 
 
 @app.get("/health/db", tags=["health"])
 def health_check_db(db: Session = Depends(get_db)):
-    users_count = db.query(User).count()
-    return {"status": "ok", "users_count": users_count}
+    db.execute(text("SELECT 1"))
+    return {"status": "ok"}
+
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    if settings.environment == "production":
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response

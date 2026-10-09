@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="fintrack-api-url" content="http://127.0.0.1:8000/api/v1">
   <title>FinTrack</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
@@ -15,33 +16,32 @@
       <h1 id="auth-title">Tu dinero, con contexto.</h1>
       <p class="lede">Registra, compara y avanza hacia tus metas sin perder de vista lo importante.</p>
       <form id="login-form" class="stack">
-        <label for="email">Correo electrónico</label>
-        <input id="email" name="email" type="email" autocomplete="email" required>
-        <label for="password">Contraseña</label>
-        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <label for="login-email">Correo electrónico</label><input id="login-email" name="email" type="email" autocomplete="email" required>
+        <label for="login-password">Contraseña</label><input id="login-password" name="password" type="password" autocomplete="current-password" required>
         <button type="submit">Entrar</button>
       </form>
+      <form id="register-form" class="stack" hidden>
+        <label for="register-name">Nombre</label><input id="register-name" name="name" minlength="2" maxlength="150" required>
+        <label for="register-email">Correo electrónico</label><input id="register-email" name="email" type="email" autocomplete="email" required>
+        <label for="register-password">Contraseña</label><input id="register-password" name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+        <button type="submit">Crear cuenta</button>
+      </form>
+      <button id="auth-toggle" class="quiet" type="button">Crear una cuenta</button>
       <p id="auth-message" class="message" role="alert"></p>
     </section>
 
     <section id="app-view" hidden>
-      <header class="topbar">
-        <div><p class="kicker">FINTRACK</p><h1>Resumen financiero</h1></div>
-        <div class="toolbar"><button id="theme-toggle" class="quiet" type="button" aria-pressed="false">Modo oscuro</button><button id="logout" class="quiet" type="button">Salir</button></div>
-      </header>
+      <header class="topbar"><div><p class="kicker">FINTRACK</p><h1>Resumen financiero</h1></div><div class="toolbar"><button id="theme-toggle" class="quiet" type="button" aria-pressed="false">Modo oscuro</button><button id="logout" class="quiet" type="button">Salir</button></div></header>
       <nav class="tabs" aria-label="Secciones principales">
-        <button class="tab active" data-section="dashboard" type="button">Dashboard</button>
-        <button class="tab" data-section="accounts" type="button">Cuentas</button>
-        <button class="tab" data-section="transactions" type="button">Movimientos</button>
-        <button class="tab" data-section="budgets" type="button">Presupuestos</button>
-        <button class="tab" data-section="goals" type="button">Metas</button>
+        <button class="tab active" data-section="dashboard" type="button">Dashboard</button><button class="tab" data-section="accounts" type="button">Cuentas</button><button class="tab" data-section="categories" type="button">Categorías</button><button class="tab" data-section="transactions" type="button">Movimientos</button><button class="tab" data-section="budgets" type="button">Presupuestos</button><button class="tab" data-section="goals" type="button">Metas</button>
       </nav>
       <p id="app-message" class="message" role="status"></p>
       <section id="dashboard" class="view"><div class="metrics"><article><span>Ingresos del mes</span><strong id="income-total">-</strong></article><article><span>Gastos del mes</span><strong id="expense-total">-</strong></article><article><span>Saldo total</span><strong id="balance-total">-</strong></article></div><div class="charts"><article><h2>Ingresos vs. gastos</h2><canvas id="monthly-chart" aria-label="Ingresos y gastos de los últimos seis meses"></canvas></article><article><h2>Gasto por categoría</h2><canvas id="category-chart" aria-label="Gastos agrupados por categoría"></canvas></article></div></section>
-      <section id="accounts" class="view" hidden><h2>Cuentas</h2><div id="accounts-list" class="list"></div></section>
-      <section id="transactions" class="view" hidden><div class="section-heading"><h2>Movimientos</h2><button id="export-button" type="button">Exportar CSV</button></div><form id="transaction-filters" class="filters"><label>Desde <input name="date_from" type="date"></label><label>Hasta <input name="date_to" type="date"></label><label>Tipo <select name="type"><option value="">Todos</option><option>income</option><option>expense</option><option>transfer</option></select></label><button type="submit">Filtrar</button></form><div id="transactions-list" class="list"></div></section>
-      <section id="budgets" class="view" hidden><h2>Presupuestos</h2><div id="budgets-list" class="list"></div></section>
-      <section id="goals" class="view" hidden><div class="section-heading"><h2>Metas de ahorro</h2><button id="new-goal" type="button">Nueva meta</button></div><div id="goals-list" class="list"></div></section>
+      <section id="accounts" class="view" hidden><div class="section-heading"><h2>Cuentas</h2></div><form id="account-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="100"><select name="type"><option value="cash">Efectivo</option><option value="bank">Banco</option><option value="savings">Ahorros</option><option value="credit_card">Tarjeta</option></select><input name="currency" value="COP" minlength="3" maxlength="3" required><input name="initial_balance" type="number" step="0.01" value="0" required><button type="submit">Crear cuenta</button></form><div id="accounts-list" class="list"></div></section>
+      <section id="categories" class="view" hidden><h2>Categorías</h2><form id="category-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="100"><select name="type"><option value="expense">Gasto</option><option value="income">Ingreso</option></select><button type="submit">Crear categoría</button></form><div id="categories-list" class="list"></div></section>
+      <section id="transactions" class="view" hidden><div class="section-heading"><h2>Movimientos</h2><button id="export-button" type="button">Exportar CSV</button></div><form id="transaction-form" class="filters"><select name="account_id" required></select><select name="type" required><option value="expense">Gasto</option><option value="income">Ingreso</option><option value="transfer">Transferencia</option></select><select name="category_id"></select><select name="destination_account_id"><option value="">Cuenta destino (transferencia)</option></select><input name="amount" type="number" min="0.01" step="0.01" placeholder="Monto" required><input name="transaction_date" type="date" required><input name="description" maxlength="255" placeholder="Descripción"><button type="submit">Registrar movimiento</button></form><form id="transaction-filters" class="filters"><label>Desde <input name="date_from" type="date"></label><label>Hasta <input name="date_to" type="date"></label><label>Tipo <select name="type"><option value="">Todos</option><option>income</option><option>expense</option><option>transfer</option></select></label><button type="submit">Filtrar</button></form><div id="transactions-list" class="list"></div></section>
+      <section id="budgets" class="view" hidden><h2>Presupuestos</h2><form id="budget-form" class="filters"><select name="category_id" required></select><input name="amount_limit" type="number" min="0.01" step="0.01" placeholder="Límite" required><input name="start_date" type="date" required><input name="end_date" type="date" required><button type="submit">Crear presupuesto</button></form><div id="budgets-list" class="list"></div></section>
+      <section id="goals" class="view" hidden><div class="section-heading"><h2>Metas de ahorro</h2></div><form id="goal-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="120"><input name="target_amount" type="number" min="0.01" step="0.01" placeholder="Objetivo" required><input name="target_date" type="date" required><button type="submit">Crear meta</button></form><div id="goals-list" class="list"></div></section>
     </section>
   </main>
 </body>

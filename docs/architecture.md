@@ -169,7 +169,7 @@ sequenceDiagram
     R->>S: Invoca metodo del service
     S->>S: Aplica reglas de negocio
     S->>Repo: Solicita operacion de datos
-    Repo->>DB: Query parametrizada (SET LOCAL user_id)
+    Repo->>DB: Query parametrizada (set_config user_id)
     DB-->>Repo: Filas autorizadas por RLS
     Repo-->>S: Entidad / resultado
     S-->>R: Resultado procesado
@@ -211,7 +211,7 @@ sequenceDiagram
     R->>S: create_transaction(user_id, data)
     S->>S: Verifica limite de presupuesto
     S->>Repo: insert(user_id, data)
-    Repo->>DB: SET LOCAL app.current_user_id
+    Repo->>DB: set_config app.current_user_id
     Repo->>DB: INSERT INTO transactions ... RETURNING *
     DB-->>Repo: Fila insertada (solo si user_id coincide, por RLS)
     Repo-->>S: Transaction
@@ -243,7 +243,7 @@ sequenceDiagram
 2. **Router:** recibe la petición, resuelve el usuario autenticado a partir del JWT y delega en el service.
 3. **Schema:** valida que `amount` sea mayor que cero y que los campos requeridos estén presentes; si algo falla, FastAPI responde `422` antes de llegar al service.
 4. **Service:** aplica la regla de negocio (por ejemplo, verificar que el gasto no exceda el presupuesto mensual de la categoría) y coordina dos operaciones relacionadas: insertar la transacción y actualizar el saldo de la cuenta.
-5. **Repository:** ejecuta la inserción con una consulta parametrizada y establece el contexto de usuario (`SET LOCAL app.current_user_id`) que las políticas de RLS usan para autorizar la operación.
+5. **Repository:** ejecuta la inserción con una consulta parametrizada y establece el contexto de usuario (`set_config('app.current_user_id', ...)`) que las políticas de RLS usan para autorizar la operación.
 6. **PostgreSQL:** aplica la política de RLS de la tabla `transactions` (por ejemplo, `USING (user_id = current_setting('app.current_user_id')::uuid)`), garantizando que la fila solo se inserte o consulte si pertenece al usuario autenticado.
 7. **Respuesta:** el resultado sube de nuevo por las capas hasta convertirse en un `TransactionOut`, que el router serializa como JSON.
 8. **Frontend:** recibe la respuesta `201 Created`, agrega la fila a la tabla de movimientos y actualiza el gráfico de Chart.js correspondiente.

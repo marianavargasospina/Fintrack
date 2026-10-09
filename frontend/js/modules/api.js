@@ -1,4 +1,14 @@
-export const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
+const configuredApiUrl = document.querySelector('meta[name="fintrack-api-url"]')?.content;
+export const API_BASE_URL = configuredApiUrl || "http://127.0.0.1:8000/api/v1";
+
+export function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
 export async function apiRequest(path, options = {}) {
   const token = localStorage.getItem("fintrack_token");

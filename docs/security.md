@@ -168,7 +168,7 @@ El `repository` establece el contexto de usuario en cada operación antes de eje
 ```mermaid
 flowchart TD
     A["Service solicita datos"] --> B["Repository"]
-    B --> C["SET LOCAL app.current_user_id = :user_id"]
+    B --> C["set_config app.current_user_id = :user_id"]
     C --> D["SELECT / INSERT / UPDATE sobre tabla protegida"]
     D --> E{"Policy RLS: user_id = current_setting(...)"}
     E -->|Coincide| F["Fila visible o afectada"]
@@ -234,6 +234,8 @@ Esta redundancia es intencional: en proyectos que crecen agregando endpoints con
 | Ausencia de registro (logging) estructurado de eventos de seguridad | Media | Pendiente |
 | Sin escaneo automatizado de vulnerabilidades en dependencias | Baja | Pendiente |
 
+El endpoint de login aplica un límite de cinco intentos por IP en una ventana de cinco minutos. El contador actual vive en memoria del proceso; en un despliegue con varias réplicas debe sustituirse por un almacén compartido o por un rate limiter del proxy de entrada.
+
 ## 13. Riesgos mitigados
 
 - **Exposición de contraseñas:** mitigado mediante hashing bcrypt con sal aleatoria y factor de costo configurable (sección 6); ni siquiera un acceso directo a la base de datos expone las contraseñas originales.
@@ -242,6 +244,8 @@ Esta redundancia es intencional: en proyectos que crecen agregando endpoints con
 - **Datos malformados o asignación masiva de campos:** mitigado mediante `schemas` explícitos de Pydantic que definen de forma cerrada los campos aceptados (sección 9).
 - **Secretos en el código fuente:** mitigado mediante configuración por variables de entorno y exclusión de `.env` del control de versiones (sección 5).
 - **Interceptación de datos en tránsito:** mitigado mediante el uso de HTTPS/TLS en el entorno de despliegue (Render).
+- **Cabeceras de seguridad básicas:** mitigado mediante `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` y HSTS en producción.
+- **XSS en contenido financiero:** mitigado en el frontend mediante escape explícito de valores antes de renderizarlos en HTML.
 
 ## 14. Buenas prácticas implementadas
 
