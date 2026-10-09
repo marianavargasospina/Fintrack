@@ -15,7 +15,7 @@ def get_account_service(db: Session = Depends(get_db)) -> AccountService:
     return AccountService(AccountRepository(db))
 
 
-@router.get("/", response_model=list[AccountOut])
+@router.get("", response_model=list[AccountOut])
 def list_accounts(
     current_user: User = Depends(get_current_user),
     service: AccountService = Depends(get_account_service),
@@ -23,7 +23,7 @@ def list_accounts(
     return service.list_accounts(current_user.id)
 
 
-@router.post("/", response_model=AccountOut, status_code=201)
+@router.post("", response_model=AccountOut, status_code=201)
 def create_account(
     data: AccountCreate,
     current_user: User = Depends(get_current_user),

@@ -1,5 +1,8 @@
 const configuredApiUrl = document.querySelector('meta[name="fintrack-api-url"]')?.content;
-export const API_BASE_URL = configuredApiUrl || "http://127.0.0.1:8000/api/v1";
+const isLocalFrontend = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+export const API_BASE_URL = isLocalFrontend
+  ? (configuredApiUrl || "http://127.0.0.1:8000/api/v1")
+  : `${window.location.origin}/api/v1`;
 
 export function escapeHtml(value) {
   return String(value ?? "")
