@@ -17,7 +17,7 @@ def get_category_service(db: Session = Depends(get_db)) -> CategoryService:
     return CategoryService(CategoryRepository(db))
 
 
-@router.get("/", response_model=list[CategoryOut])
+@router.get("", response_model=list[CategoryOut])
 def list_categories(
     current_user: User = Depends(get_current_user),
     service: CategoryService = Depends(get_category_service),
@@ -25,7 +25,7 @@ def list_categories(
     return service.list_categories(current_user.id)
 
 
-@router.post("/", response_model=CategoryOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=CategoryOut, status_code=status.HTTP_201_CREATED)
 def create_category(
     data: CategoryCreate,
     current_user: User = Depends(get_current_user),

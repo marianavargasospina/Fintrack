@@ -21,7 +21,7 @@ def raise_business_error(error: ValueError):
     raise HTTPException(status_code=400, detail=str(error)) from error
 
 
-@router.get("/", response_model=list[BudgetOut])
+@router.get("", response_model=list[BudgetOut])
 def list_budgets(
     current_user: User = Depends(get_current_user),
     service: BudgetService = Depends(get_budget_service),
@@ -29,7 +29,7 @@ def list_budgets(
     return service.list_budgets(current_user.id)
 
 
-@router.post("/", response_model=BudgetOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=BudgetOut, status_code=status.HTTP_201_CREATED)
 def create_budget(
     data: BudgetCreate,
     current_user: User = Depends(get_current_user),

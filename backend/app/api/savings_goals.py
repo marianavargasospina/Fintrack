@@ -21,7 +21,7 @@ def get_goal_service(db: Session = Depends(get_db)) -> SavingsGoalService:
     return SavingsGoalService(SavingsGoalRepository(db))
 
 
-@router.get("/", response_model=list[SavingsGoalOut])
+@router.get("", response_model=list[SavingsGoalOut])
 def list_goals(
     current_user: User = Depends(get_current_user),
     service: SavingsGoalService = Depends(get_goal_service),
@@ -29,7 +29,7 @@ def list_goals(
     return service.list_goals(current_user.id)
 
 
-@router.post("/", response_model=SavingsGoalOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SavingsGoalOut, status_code=status.HTTP_201_CREATED)
 def create_goal(
     data: SavingsGoalCreate,
     current_user: User = Depends(get_current_user),

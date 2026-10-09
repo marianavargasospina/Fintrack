@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(150) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -8,7 +8,7 @@ CREATE TABLE users (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE accounts (
+CREATE TABLE IF NOT EXISTS accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(100) NOT NULL,
@@ -19,10 +19,22 @@ CREATE TABLE accounts (
     UNIQUE (user_id, name)
 );
 
-CREATE INDEX ix_accounts_user_id ON accounts (user_id);
+CREATE INDEX IF NOT EXISTS ix_accounts_user_id ON accounts (user_id);
 
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY accounts_user_isolation ON accounts
-    USING (user_id = current_setting('app.current_user_id')::uuid)
-    WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_policies
+        WHERE schemaname = 'public'
+          AND tablename = 'accounts'
+          AND policyname = 'accounts_user_isolation'
+    ) THEN
+        CREATE POLICY accounts_user_isolation ON accounts
+            USING (user_id = current_setting('app.current_user_id')::uuid)
+            WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+    END IF;
+END
+$$;

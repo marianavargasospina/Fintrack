@@ -1,6 +1,5 @@
 import os
 
-os.environ.setdefault("DATABASE_URL", "postgresql+psycopg://fintrack_app:password@localhost:5432/fintrack")
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret")
 
 from fastapi.testclient import TestClient

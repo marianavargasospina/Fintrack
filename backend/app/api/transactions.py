@@ -29,7 +29,7 @@ def handle_business_error(error: ValueError):
     raise HTTPException(status_code=400, detail=str(error)) from error
 
 
-@router.get("/", response_model=TransactionPage)
+@router.get("", response_model=TransactionPage)
 def list_transactions(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=20, ge=1, le=100),
@@ -69,7 +69,7 @@ def list_transactions(
     )
 
 
-@router.post("/", response_model=TransactionOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=TransactionOut, status_code=status.HTTP_201_CREATED)
 def create_transaction(
     data: TransactionCreate,
     current_user: User = Depends(get_current_user),

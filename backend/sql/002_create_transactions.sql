@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     account_id UUID NOT NULL REFERENCES accounts(id),
@@ -22,13 +22,23 @@ CREATE TABLE transactions (
     )
 );
 
-CREATE INDEX ix_transactions_user_date
+CREATE INDEX IF NOT EXISTS ix_transactions_user_date
     ON transactions (user_id, transaction_date DESC);
-CREATE INDEX ix_transactions_account_id ON transactions (account_id);
-CREATE INDEX ix_transactions_category_id ON transactions (category_id);
+CREATE INDEX IF NOT EXISTS ix_transactions_account_id ON transactions (account_id);
+CREATE INDEX IF NOT EXISTS ix_transactions_category_id ON transactions (category_id);
 
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY transactions_user_isolation ON transactions
-    USING (user_id = current_setting('app.current_user_id')::uuid)
-    WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies
+        WHERE schemaname = 'public' AND tablename = 'transactions'
+          AND policyname = 'transactions_user_isolation'
+    ) THEN
+        CREATE POLICY transactions_user_isolation ON transactions
+            USING (user_id = current_setting('app.current_user_id')::uuid)
+            WITH CHECK (user_id = current_setting('app.current_user_id')::uuid);
+    END IF;
+END
+$$;

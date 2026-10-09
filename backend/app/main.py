@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -52,3 +55,12 @@ async def add_security_headers(request: Request, call_next):
     if settings.environment == "production":
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
     return response
+
+
+frontend_directory = Path(__file__).resolve().parents[2] / "frontend"
+if frontend_directory.is_dir():
+    app.mount(
+        "/",
+        StaticFiles(directory=frontend_directory, html=True),
+        name="frontend",
+    )
