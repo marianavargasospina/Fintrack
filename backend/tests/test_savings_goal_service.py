@@ -25,6 +25,9 @@ class FakeGoalRepository:
         goal.current_amount = current_amount
         return goal
 
+    def delete(self, user_id, goal):
+        self.goal = None
+
 
 def test_create_goal_calculates_percentage():
     repository = FakeGoalRepository()
@@ -48,3 +51,21 @@ def test_progress_cannot_exceed_target():
         assert "superar" in str(error)
     else:
         raise AssertionError("Expected a validation error")
+
+
+def test_delete_goal_returns_false_for_missing_goal():
+    repository = FakeGoalRepository()
+    service = SavingsGoalService(repository)
+
+    assert service.delete_goal(uuid4(), uuid4()) is False
+
+
+def test_delete_goal_removes_existing_goal():
+    repository = FakeGoalRepository()
+    service = SavingsGoalService(repository)
+    goal = service.create_goal(uuid4(), SavingsGoalCreate(
+        name="Emergency fund", target_amount=Decimal("1000"), target_date=date(2027, 1, 1)
+    ))
+
+    assert service.delete_goal(uuid4(), goal["id"]) is True
+    assert repository.goal is None

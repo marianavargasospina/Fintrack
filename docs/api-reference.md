@@ -12,13 +12,12 @@ La especificación completa se genera en `/openapi.json`. Todos los endpoints si
 
 - `GET/POST /accounts`: lista o crea cuentas.
 - `GET/PUT/DELETE /accounts/{account_id}`: consulta, modifica o elimina una cuenta.
-- `GET/POST /categories`: lista o crea categorías.
-- `GET/POST /budgets`: lista o crea presupuestos.
+- `GET/POST /categories`, `DELETE /categories/{category_id}`: lista, crea o elimina categorías sin movimientos ni presupuestos asociados.
+- `GET/POST /budgets`, `DELETE /budgets/{budget_id}`: lista, crea o elimina presupuestos.
 - `GET /budgets/{budget_id}/progress`: consulta el progreso de un presupuesto.
 - `GET/POST /transactions`: lista o crea movimientos. El listado acepta `page`, `page_size`, `date_from`, `date_to`, `account_id`, `category_id`, `type`, `min_amount`, `max_amount` y `description`.
-- `GET/PUT/DELETE /transactions/{transaction_id}`: consulta, modifica o elimina un movimiento.
-- `GET /goals`: lista metas con `percentage` calculado.
-- `POST /goals`: crea una meta (`name`, `target_amount`, `current_amount`, `target_date`).
+- `GET/PUT /transactions/{transaction_id}`: consulta o modifica un movimiento; los movimientos no se eliminan.
+- `GET /goals`, `POST /goals`, `DELETE /goals/{goal_id}`: lista, crea o elimina metas; la lista incluye `percentage` calculado.
 - `POST /goals/{goal_id}/progress`: registra el nuevo `current_amount` y devuelve el porcentaje.
 - `GET /dashboard/summary`: devuelve ingresos y gastos del mes, gastos por categoría, serie de los últimos seis meses y saldo total. Acepta `month` como fecha de referencia.
 - `GET /export/transactions?format=csv`: descarga movimientos en CSV usando los mismos filtros del listado.

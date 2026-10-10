@@ -38,3 +38,10 @@ class SavingsGoalService:
         return self._with_percentage(
             self.repository.update_progress(user_id, goal, current_amount)
         )
+
+    def delete_goal(self, user_id, goal_id):
+        goal = self.repository.get_by_id(user_id, goal_id)
+        if goal is None:
+            return False
+        self.repository.delete(user_id, goal)
+        return True

@@ -41,3 +41,8 @@ class SavingsGoalRepository:
         self.db.refresh(goal)
         self.db.commit()
         return goal
+
+    def delete(self, user_id, goal: SavingsGoal) -> None:
+        self._set_user_context(user_id)
+        self.db.delete(goal)
+        self.db.commit()

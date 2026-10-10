@@ -65,7 +65,10 @@ def delete_category(
     current_user: User = Depends(get_current_user),
     service: CategoryService = Depends(get_category_service),
 ):
-    deleted = service.delete_category(current_user.id, category_id)
+    try:
+        deleted = service.delete_category(current_user.id, category_id)
+    except ValueError as error:
+        raise HTTPException(status_code=409, detail=str(error)) from error
     if not deleted:
         raise HTTPException(status_code=404, detail="Categoría no encontrada")
     return Response(status_code=status.HTTP_204_NO_CONTENT)

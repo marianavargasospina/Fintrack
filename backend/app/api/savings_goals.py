@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -36,6 +36,18 @@ def create_goal(
     service: SavingsGoalService = Depends(get_goal_service),
 ):
     return service.create_goal(current_user.id, data)
+
+
+@router.delete("/{goal_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_goal(
+    goal_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    service: SavingsGoalService = Depends(get_goal_service),
+):
+    deleted = service.delete_goal(current_user.id, goal_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Meta no encontrada")
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post("/{goal_id}/progress", response_model=SavingsGoalOut)
