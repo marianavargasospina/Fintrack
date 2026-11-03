@@ -4,44 +4,76 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="fintrack-api-url" content="http://127.0.0.1:8000/api/v1">
-  <title>FinTrack</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>FinTrack | Finanzas personales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js?v=2"></script>
 </head>
 <body>
   <main class="shell">
-    <section id="auth-view" class="auth-panel" aria-labelledby="auth-title">
-      <p class="kicker">FINTRACK / CONTROL PERSONAL</p>
-      <h1 id="auth-title">Tu dinero, con contexto.</h1>
-      <p class="lede">Registra, compara y avanza hacia tus metas sin perder de vista lo importante.</p>
-      <form id="login-form" class="stack">
-        <label for="login-email">Correo electrónico</label><input id="login-email" name="email" type="email" autocomplete="email" required>
-        <label for="login-password">Contraseña</label><input id="login-password" name="password" type="password" autocomplete="current-password" required>
-        <button type="submit">Entrar</button>
-      </form>
-      <form id="register-form" class="stack" hidden>
-        <label for="register-name">Nombre</label><input id="register-name" name="name" minlength="2" maxlength="150" required>
-        <label for="register-email">Correo electrónico</label><input id="register-email" name="email" type="email" autocomplete="email" required>
-        <label for="register-password">Contraseña</label><input id="register-password" name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
-        <button type="submit">Crear cuenta</button>
-      </form>
-      <button id="auth-toggle" class="quiet" type="button">Crear una cuenta</button>
-      <p id="auth-message" class="message" role="alert"></p>
+    <section id="auth-view" class="auth-layout" aria-labelledby="auth-title">
+      <div class="auth-intro">
+        <p class="brand-mark">FIN<span>TRACK</span></p>
+        <p class="eyebrow">CONTROL PERSONAL</p>
+        <h1 id="auth-title">Tu dinero,<br><em>en perspectiva.</em></h1>
+        <p class="lede">Una vista clara de lo que tienes, lo que gastas y hacia dónde vas.</p>
+        <div class="intro-note"><span class="note-dot"></span><span>Datos privados. Decisiones más tranquilas.</span></div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-heading"><p class="eyebrow">BIENVENIDA</p><h2>Tu espacio financiero</h2><p>Ingresa para continuar.</p></div>
+        <form id="login-form" class="stack">
+          <label for="login-email">Correo electrónico</label><input id="login-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          <label for="login-password">Contraseña</label><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Tu contraseña" required>
+          <button type="submit">Entrar</button>
+        </form>
+        <form id="register-form" class="stack" hidden>
+          <label for="register-name">Nombre</label><input id="register-name" name="name" minlength="2" maxlength="150" placeholder="Tu nombre" required>
+          <label for="register-email">Correo electrónico</label><input id="register-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          <label for="register-password">Contraseña</label><input id="register-password" name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required>
+          <button type="submit">Crear cuenta <span aria-hidden="true">-></span></button>
+        </form>
+        <form id="recovery-form" class="stack" hidden>
+          <label for="recovery-email">Correo electrónico</label><input id="recovery-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          <button type="submit">Enviar código</button>
+        </form>
+        <div class="auth-links"><button id="auth-toggle" class="text-button" type="button">Crear una cuenta</button><button id="forgot-password" class="text-button" type="button">¿Olvidaste tu contraseña?</button></div>
+        <p id="auth-message" class="message" role="alert"></p>
+      </div>
     </section>
 
-    <section id="app-view" hidden>
-      <header class="topbar"><div><p class="kicker">FINTRACK</p><h1>Resumen financiero</h1></div><div class="toolbar"><button id="theme-toggle" class="quiet" type="button" aria-pressed="false">Modo oscuro</button><button id="logout" class="quiet" type="button">Salir</button></div></header>
-      <nav class="tabs" aria-label="Secciones principales">
-        <button class="tab active" data-section="dashboard" type="button">Dashboard</button><button class="tab" data-section="accounts" type="button">Cuentas</button><button class="tab" data-section="categories" type="button">Categorías</button><button class="tab" data-section="transactions" type="button">Movimientos</button><button class="tab" data-section="budgets" type="button">Presupuestos</button><button class="tab" data-section="goals" type="button">Metas</button>
-      </nav>
-      <p id="app-message" class="message" role="status"></p>
-      <section id="dashboard" class="view"><div class="metrics"><article><span>Ingresos del mes</span><strong id="income-total">-</strong></article><article><span>Gastos del mes</span><strong id="expense-total">-</strong></article><article><span>Saldo total</span><strong id="balance-total">-</strong></article></div><div class="charts"><article><h2>Ingresos vs. gastos</h2><canvas id="monthly-chart" aria-label="Ingresos y gastos de los últimos seis meses"></canvas></article><article><h2>Gasto por categoría</h2><canvas id="category-chart" aria-label="Gastos agrupados por categoría"></canvas></article></div></section>
-      <section id="accounts" class="view" hidden><div class="section-heading"><h2>Cuentas</h2></div><form id="account-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="100"><select name="type"><option value="cash">Efectivo</option><option value="bank">Banco</option><option value="savings">Ahorros</option><option value="credit_card">Tarjeta</option></select><input name="currency" value="COP" minlength="3" maxlength="3" required><input name="initial_balance" type="number" step="0.01" value="0" required><button type="submit">Crear cuenta</button></form><div id="accounts-list" class="list"></div></section>
-      <section id="categories" class="view" hidden><h2>Categorías</h2><form id="category-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="100"><select name="type"><option value="expense">Gasto</option><option value="income">Ingreso</option></select><button type="submit">Crear categoría</button></form><div id="categories-list" class="list"></div></section>
-      <section id="transactions" class="view" hidden><div class="section-heading"><h2>Movimientos</h2><button id="export-button" type="button">Exportar CSV</button></div><form id="transaction-form" class="filters"><select name="account_id" required></select><select name="type" required><option value="expense">Gasto</option><option value="income">Ingreso</option><option value="transfer">Transferencia</option></select><select name="category_id"></select><select name="destination_account_id"><option value="">Cuenta destino (transferencia)</option></select><input name="amount" type="number" min="0.01" step="0.01" placeholder="Monto" required><input name="transaction_date" type="date" required><input name="description" maxlength="255" placeholder="Descripción"><button type="submit">Registrar movimiento</button></form><form id="transaction-filters" class="filters"><label>Desde <input name="date_from" type="date"></label><label>Hasta <input name="date_to" type="date"></label><label>Tipo <select name="type"><option value="">Todos</option><option>income</option><option>expense</option><option>transfer</option></select></label><button type="submit">Filtrar</button></form><div id="transactions-list" class="list"></div></section>
-      <section id="budgets" class="view" hidden><h2>Presupuestos</h2><form id="budget-form" class="filters"><select name="category_id" required></select><input name="amount_limit" type="number" min="0.01" step="0.01" placeholder="Límite" required><input name="start_date" type="date" required><input name="end_date" type="date" required><button type="submit">Crear presupuesto</button></form><div id="budgets-list" class="list"></div></section>
-      <section id="goals" class="view" hidden><div class="section-heading"><h2>Metas de ahorro</h2></div><form id="goal-form" class="filters"><input name="name" placeholder="Nombre" required maxlength="120"><input name="target_amount" type="number" min="0.01" step="0.01" placeholder="Objetivo" required><input name="target_date" type="date" required><button type="submit">Crear meta</button></form><div id="goals-list" class="list"></div></section>
+    <section id="app-view" class="app-layout" hidden>
+      <aside class="sidebar">
+        <div class="sidebar-top"><p class="brand-mark">FIN<span>TRACK</span></p><p class="sidebar-caption">PERSONAL FINANCE</p></div>
+        <nav class="tabs" aria-label="Secciones principales">
+          <button class="tab active" data-section="dashboard" type="button"><span class="nav-icon">+</span>Resumen</button>
+          <button class="tab" data-section="accounts" type="button"><span class="nav-icon">=</span>Cuentas</button>
+          <button class="tab" data-section="categories" type="button"><span class="nav-icon">#</span>Categorías</button>
+          <button class="tab" data-section="transactions" type="button"><span class="nav-icon">~</span>Movimientos</button>
+          <button class="tab" data-section="budgets" type="button"><span class="nav-icon">%</span>Presupuestos</button>
+          <button class="tab" data-section="goals" type="button"><span class="nav-icon">*</span>Metas</button>
+        </nav>
+        <div class="sidebar-bottom"><div class="secure-badge"><span>+</span><div><strong>Tu información</strong><small>Solo tú tienes acceso</small></div></div><button id="logout" class="logout-button" type="button">Salir</button></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="workspace-header"><div><p class="eyebrow">MI ESPACIO</p><h1>Resumen financiero</h1></div><div class="toolbar"><button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" title="Cambiar tema">◐</button><div class="avatar" aria-hidden="true">M</div></div></header>
+        <p id="app-message" class="message" role="status"></p>
+
+        <section id="dashboard" class="view">
+          <div class="welcome-row"><div><p class="eyebrow">VISTA GENERAL</p><h2>Tu dinero, bajo control.</h2></div><span class="date-chip">Este mes</span></div>
+          <div class="metrics"><article class="metric-card metric-primary"><span class="metric-label">Saldo total</span><strong id="balance-total">-</strong><small>En todas tus cuentas</small></article><article class="metric-card"><span class="metric-label">Ingresos del mes</span><strong id="income-total">-</strong><small class="positive">+ Lo que recibiste</small></article><article class="metric-card"><span class="metric-label">Gastos del mes</span><strong id="expense-total">-</strong><small class="negative">- Lo que utilizaste</small></article></div>
+          <div class="dashboard-grid"><article class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">MOVIMIENTO</p><h2>Ingresos vs. gastos</h2></div><span class="panel-period">6 meses</span></div><canvas id="monthly-chart" aria-label="Ingresos y gastos de los últimos seis meses"></canvas></article><article class="panel chart-panel category-panel"><div class="panel-heading"><div><p class="eyebrow">DISTRIBUCIÓN</p><h2>Gasto por categoría</h2></div></div><canvas id="category-chart" aria-label="Gastos agrupados por categoría"></canvas></article></div>
+        </section>
+
+        <section id="accounts" class="view" hidden><div class="page-heading"><div><p class="eyebrow">PATRIMONIO</p><h2>Cuentas</h2><p>Todo lo que tienes, en un mismo lugar.</p></div></div><form id="account-form" class="filters form-panel"><input name="name" placeholder="Nombre de la cuenta" required maxlength="100"><select name="type"><option value="cash">Efectivo</option><option value="bank">Banco</option><option value="savings">Ahorros</option><option value="credit_card">Tarjeta</option></select><input name="currency" value="COP" minlength="3" maxlength="3" required><input name="initial_balance" class="money-input" inputmode="decimal" placeholder="Saldo inicial"><button type="submit">+ Crear cuenta</button></form><div id="accounts-list" class="list"></div></section>
+        <section id="categories" class="view" hidden><div class="page-heading"><div><p class="eyebrow">ORGANIZACIÓN</p><h2>Categorías</h2><p>Ordena tus ingresos y gastos a tu manera.</p></div></div><form id="category-form" class="filters form-panel"><input name="name" placeholder="Nombre de la categoría" required maxlength="100"><select name="type"><option value="expense">Gasto</option><option value="income">Ingreso</option></select><button type="submit">+ Crear categoría</button></form><div id="categories-list" class="list"></div></section>
+        <section id="transactions" class="view" hidden><div class="page-heading page-heading-inline"><div><p class="eyebrow">ACTIVIDAD</p><h2>Movimientos</h2><p>Registra y revisa cada movimiento.</p></div><button id="export-button" class="quiet" type="button">Descargar CSV</button></div><form id="transaction-form" class="filters form-panel"><select name="account_id" required></select><select name="type" required><option value="expense">Gasto</option><option value="income">Ingreso</option><option value="transfer">Transferencia</option></select><select name="category_id"></select><select name="destination_account_id"><option value="">Cuenta destino</option></select><input name="amount" class="money-input" inputmode="decimal" placeholder="Monto" required><input name="transaction_date" type="date" required><input name="description" maxlength="255" placeholder="Descripción"><button type="submit">+ Registrar</button></form><form id="transaction-filters" class="filters compact-filter"><label>Desde <input name="date_from" type="date"></label><label>Hasta <input name="date_to" type="date"></label><label>Tipo <select name="type"><option value="">Todos</option><option>income</option><option>expense</option><option>transfer</option></select></label><button type="submit" class="quiet">Filtrar</button></form><div id="transactions-list" class="list"></div></section>
+        <section id="budgets" class="view" hidden><div class="page-heading"><div><p class="eyebrow">PLANIFICACIÓN</p><h2>Presupuestos</h2><p>Decide por adelantado cómo quieres gastar.</p></div></div><form id="budget-form" class="filters form-panel"><select name="category_id" required></select><input name="amount_limit" class="money-input" inputmode="decimal" placeholder="Límite" required><input name="start_date" type="date" required><input name="end_date" type="date" required><button type="submit">+ Crear presupuesto</button></form><div id="budgets-list" class="list"></div></section>
+        <section id="goals" class="view" hidden><div class="page-heading"><div><p class="eyebrow">PROGRESO</p><h2>Metas de ahorro</h2><p>Pequeños pasos, objetivos más cerca.</p></div></div><form id="goal-form" class="filters form-panel"><input name="name" placeholder="Nombre de la meta" required maxlength="120"><input name="target_amount" class="money-input" inputmode="decimal" placeholder="Objetivo" required><input name="target_date" type="date" required><button type="submit">+ Crear meta</button></form><div id="goals-list" class="list"></div></section>
+      </main>
     </section>
   </main>
 </body>

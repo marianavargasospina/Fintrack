@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+import uuid
+
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -30,3 +32,18 @@ def create_account(
     service: AccountService = Depends(get_account_service),
 ):
     return service.create_account(current_user.id, data)
+
+
+@router.delete("/{account_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_account(
+    account_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    service: AccountService = Depends(get_account_service),
+):
+    try:
+        deleted = service.delete_account(current_user.id, account_id)
+    except ValueError as error:
+        raise HTTPException(status_code=409, detail=str(error)) from error
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Cuenta no encontrada")
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

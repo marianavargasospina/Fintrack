@@ -205,7 +205,7 @@ uvicorn app.main:app --reload
 
 ## Ejecución del frontend
 
-Al ser HTML, CSS y JavaScript puro (sin build step), puedes servirlo de cualquiera de estas formas:
+En desarrollo puedes servir el frontend de forma independiente:
 
 **Opción 1 — Extensión Live Server (VS Code):**
 Clic derecho sobre `frontend/index.html` y seleccionar "Open with Live Server".
@@ -218,6 +218,8 @@ python -m http.server 5500
 Luego abre `http://127.0.0.1:5500` en tu navegador.
 
 La URL base se configura en un solo lugar, `frontend/js/modules/api.js`, mediante `API_BASE_URL`. Por defecto apunta a `http://127.0.0.1:8000/api/v1`.
+
+En producción, FastAPI sirve `frontend/` directamente y la aplicación completa se abre desde una sola URL en el puerto del backend.
 
 ## Pruebas
 
@@ -251,18 +253,16 @@ Cada push y pull request ejecuta automáticamente las pruebas Python y la compro
 FinTrack está pensado para desplegarse de forma gratuita usando:
 
 | Componente | Servicio |
-|---|---|
-| Backend (API FastAPI) | [Render](https://render.com/) — Web Service |
-| Frontend (estático) | [Render](https://render.com/) — Static Site |
+| --- | --- |
+| Aplicación completa (FastAPI + frontend) | [Render](https://render.com/) — Web Service |
 | Base de datos | [Neon](https://neon.tech/) — PostgreSQL serverless |
 
 Pasos generales:
 
 1. Crea una base de datos en Neon y copia la cadena de conexión (`DATABASE_URL`).
-2. En Render, crea un nuevo Web Service apuntando a la carpeta `backend/`, define el comando de inicio (`uvicorn app.main:app --host 0.0.0.0 --port $PORT`) y agrega las variables de entorno (`DATABASE_URL`, `JWT_SECRET_KEY`, etc.).
-3. En Render, crea un Static Site apuntando a la carpeta `frontend/`.
-4. Actualiza la URL base del backend en el frontend para que apunte al dominio del Web Service desplegado.
-5. Configura `CORS_ORIGINS` en el backend para permitir el dominio del frontend en producción.
+2. En Render, crea un Blueprint desde `render.yaml` o un Web Service con `pip install -r backend/requirements.txt` como build y `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` como inicio.
+3. Configura `DATABASE_URL`, `JWT_SECRET_KEY` y el resto de variables privadas en Render.
+4. Comparte la única URL pública del Web Service; el backend servirá también la interfaz.
 
 ## Roadmap futuro
 

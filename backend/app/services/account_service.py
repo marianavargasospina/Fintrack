@@ -11,3 +11,6 @@ class AccountService:
 
     def create_account(self, user_id, data: AccountCreate):
         return self.repository.create(user_id, data)
+
+    def delete_account(self, user_id, account_id):
+        return self.repository.delete(user_id, account_id)

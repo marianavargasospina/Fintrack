@@ -3,7 +3,7 @@ from datetime import date
 from decimal import Decimal
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -91,8 +91,6 @@ def get_transaction(
     if transaction is None:
         raise HTTPException(status_code=404, detail="Transacción no encontrada")
     return transaction
-
-
 @router.put("/{transaction_id}", response_model=TransactionOut)
 def update_transaction(
     transaction_id: uuid.UUID,
@@ -109,16 +107,3 @@ def update_transaction(
     return transaction
 
 
-@router.delete("/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_transaction(
-    transaction_id: uuid.UUID,
-    current_user: User = Depends(get_current_user),
-    service: TransactionService = Depends(get_transaction_service),
-):
-    try:
-        deleted = service.delete_transaction(current_user.id, transaction_id)
-    except ValueError as error:
-        handle_business_error(error)
-    if not deleted:
-        raise HTTPException(status_code=404, detail="Transacción no encontrada")
-    return Response(status_code=status.HTTP_204_NO_CONTENT)

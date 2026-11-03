@@ -1,7 +1,9 @@
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app.models.budget import Budget
 from app.models.category import Category
+from app.models.transaction import Transaction
 from app.schemas.category import CategoryCreate, CategoryUpdate
 
 
@@ -49,5 +51,30 @@ class CategoryRepository:
 
     def delete(self, user_id, category: Category) -> None:
         self._set_user_context(user_id)
+        has_transactions = (
+            self.db.query(Transaction.id)
+            .filter(
+                Transaction.user_id == user_id,
+                Transaction.category_id == category.id,
+            )
+            .first()
+            is not None
+        )
+        if has_transactions:
+            raise ValueError(
+                "No puedes eliminar una categoría que tiene movimientos asociados."
+            )
+
+        has_budgets = (
+            self.db.query(Budget.id)
+            .filter(Budget.user_id == user_id, Budget.category_id == category.id)
+            .first()
+            is not None
+        )
+        if has_budgets:
+            raise ValueError(
+                "No puedes eliminar una categoría que tiene presupuestos asociados."
+            )
+
         self.db.delete(category)
         self.db.commit()

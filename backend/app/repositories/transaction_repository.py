@@ -134,7 +134,6 @@ class TransactionRepository:
         self.db.refresh(transaction)
         self.db.commit()
         return transaction
-
     def update(self, user_id, transaction_id, data: TransactionUpdate) -> Transaction | None:
         self._set_user_context(user_id)
         transaction = (
@@ -164,24 +163,3 @@ class TransactionRepository:
         self.db.commit()
         return transaction
 
-    def delete(self, user_id, transaction_id) -> bool:
-        self._set_user_context(user_id)
-        transaction = (
-            self.db.query(Transaction)
-            .filter(Transaction.id == transaction_id, Transaction.user_id == user_id)
-            .with_for_update()
-            .first()
-        )
-        if transaction is None:
-            return False
-
-        account_ids = {transaction.account_id}
-        if transaction.destination_account_id is not None:
-            account_ids.add(transaction.destination_account_id)
-        accounts = self._locked_accounts(user_id, account_ids)
-        if len(accounts) != len(account_ids):
-            raise ValueError("Una de las cuentas no pertenece al usuario")
-        self._apply_effect(transaction, accounts, sign=-1)
-        self.db.delete(transaction)
-        self.db.commit()
-        return True

@@ -208,11 +208,11 @@ La API sigue convenciones REST, versionada bajo el prefijo `/api/v1`, con autent
 | Recurso | Endpoints representativos | Autenticación |
 |---|---|---|
 | Auth | `POST /api/v1/auth/register`, `POST /api/v1/auth/login` | No |
-| Accounts | `GET/POST /api/v1/accounts`, `GET/PUT/DELETE /api/v1/accounts/{id}` | JWT |
-| Categories | `GET/POST /api/v1/categories` | JWT |
-| Transactions | `GET/POST /api/v1/transactions`, `GET/PUT/DELETE /api/v1/transactions/{id}` | JWT |
-| Budgets | `GET/POST /api/v1/budgets` | JWT |
-| Savings Goals | `GET/POST /api/v1/goals` | JWT |
+| Accounts | `GET/POST /api/v1/accounts`, `DELETE /api/v1/accounts/{id}` | JWT |
+| Categories | `GET/POST /api/v1/categories`, `GET/PUT/DELETE /api/v1/categories/{id}` | JWT |
+| Transactions | `GET/POST /api/v1/transactions`, `GET/PUT /api/v1/transactions/{id}` | JWT |
+| Budgets | `GET/POST /api/v1/budgets`, `GET/PUT/DELETE /api/v1/budgets/{id}`, `GET /api/v1/budgets/{id}/progress` | JWT |
+| Savings Goals | `GET/POST /api/v1/goals`, `DELETE /api/v1/goals/{id}`, `POST /api/v1/goals/{id}/progress` | JWT |
 | Dashboard | `GET /api/v1/dashboard/summary` | JWT |
 | Export | `GET /api/v1/export/transactions?format=csv` | JWT |
 
@@ -234,11 +234,10 @@ El despliegue se realiza de forma gratuita combinando Render y Neon:
 
 | Componente | Servicio |
 |---|---|
-| Backend (API FastAPI) | Render — Web Service |
-| Frontend (estático) | Render — Static Site |
+| Aplicación completa (FastAPI + frontend) | Render — Web Service |
 | Base de datos | Neon — PostgreSQL serverless |
 
-El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras) y publicar el frontend como sitio estático apuntando al backend desplegado. El detalle paso a paso está en `../README.md`.
+El flujo general consiste en crear la base de datos en Neon, configurar el Web Service en Render con las variables de entorno necesarias (`DATABASE_URL`, `JWT_SECRET_KEY`, `CORS_ORIGINS`, entre otras). FastAPI sirve también el frontend desde el mismo servicio, por lo que las personas usuarias reciben una única URL pública. El detalle paso a paso está en `../README.md`.
 
 ## 12. Escalabilidad
 

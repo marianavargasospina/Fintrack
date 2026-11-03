@@ -50,5 +50,3 @@ class TransactionService:
         self._validate_references(user_id, data)
         return self.repository.update(user_id, transaction_id, data)
 
-    def delete_transaction(self, user_id, transaction_id):
-        return self.repository.delete(user_id, transaction_id)
