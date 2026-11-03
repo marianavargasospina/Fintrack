@@ -9,7 +9,7 @@ Este documento describe la arquitectura por capas utilizada en FinTrack: la resp
 FinTrack implementa una **arquitectura en capas** (layered architecture), un patrón ampliamente utilizado en sistemas backend de producción para separar responsabilidades: qué recibe la petición, qué reglas de negocio aplica y cómo se accede a los datos. El proyecto organiza el backend en siete módulos:
 
 ```text
-/routers        # Capa de presentación (API)
+/api (routers)   # Capa de presentación (API / routers en app/api)
 /services        # Capa de lógica de negocio
 /repositories     # Capa de acceso a datos
 /models            # Entidades de dominio / ORM
@@ -38,7 +38,7 @@ Cada flecha representa una dependencia permitida: una capa superior conoce a la 
 
 ## Responsabilidad de cada capa
 
-### routers
+### api (routers)
 
 Responsabilidad: exponer los endpoints HTTP, recibir la petición, delegar en la capa de servicios y devolver la respuesta con el código de estado correcto.
 

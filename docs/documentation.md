@@ -208,11 +208,11 @@ La API sigue convenciones REST, versionada bajo el prefijo `/api/v1`, con autent
 | Recurso | Endpoints representativos | Autenticación |
 |---|---|---|
 | Auth | `POST /api/v1/auth/register`, `POST /api/v1/auth/login` | No |
-| Accounts | `GET/POST /api/v1/accounts`, `GET/PUT/DELETE /api/v1/accounts/{id}` | JWT |
-| Categories | `GET/POST /api/v1/categories`, `DELETE /api/v1/categories/{id}` | JWT |
+| Accounts | `GET/POST /api/v1/accounts`, `DELETE /api/v1/accounts/{id}` | JWT |
+| Categories | `GET/POST /api/v1/categories`, `GET/PUT/DELETE /api/v1/categories/{id}` | JWT |
 | Transactions | `GET/POST /api/v1/transactions`, `GET/PUT /api/v1/transactions/{id}` | JWT |
-| Budgets | `GET/POST /api/v1/budgets`, `DELETE /api/v1/budgets/{id}` | JWT |
-| Savings Goals | `GET/POST /api/v1/goals`, `DELETE /api/v1/goals/{id}` | JWT |
+| Budgets | `GET/POST /api/v1/budgets`, `GET/PUT/DELETE /api/v1/budgets/{id}`, `GET /api/v1/budgets/{id}/progress` | JWT |
+| Savings Goals | `GET/POST /api/v1/goals`, `DELETE /api/v1/goals/{id}`, `POST /api/v1/goals/{id}/progress` | JWT |
 | Dashboard | `GET /api/v1/dashboard/summary` | JWT |
 | Export | `GET /api/v1/export/transactions?format=csv` | JWT |
 
